@@ -1,37 +1,74 @@
-# package-name (Node.js Package Template 📦)
+# ci-debug
 
-Short description of the pain this package solves - A practical template for building and publishing Node.js packages and CLIs to npm, with GitHub Actions, OIDC publishing, and sane defaults.
+> Safely print system info and environment variables for debugging CI pipelines.
 
-  <a href="https://www.npmjs.com/package/package-name"><img src="https://img.shields.io/npm/v/package-name.svg?style=flat-square&color=007acc" alt="npm version"></a>
-  <a href="https://bundlephobia.com/package/package-name"><img src="https://img.shields.io/bundlephobia/minzip/package-name?style=flat-square" alt="size"></a>
-  <a href="https://www.npmjs.com/package/package-name"><img src="https://img.shields.io/npm/dt/package-name.svg?style=flat-square&color=success" alt="npm downloads"></a>
-  <a href="https://github.com/mgks/package-name/blob/main/LICENSE"><img src="https://img.shields.io/github/license/mgks/package-name.svg?style=flat-square&color=blue" alt="license"></a>
-  <a href="https://github.com/mgks/package-name/stargazers"><img src="https://img.shields.io/github/stars/mgks/package-name?style=flat-square&logo=github" alt="stars"></a>
+<a href="https://www.npmjs.com/package/ci-debug"><img src="https://img.shields.io/npm/v/ci-debug.svg?style=flat-square&color=007acc" alt="npm version"></a>
+<a href="https://bundlephobia.com/package/ci-debug"><img src="https://img.shields.io/bundlephobia/minzip/ci-debug?style=flat-square" alt="size"></a>
+<a href="https://www.npmjs.com/package/ci-debug"><img src="https://img.shields.io/npm/dt/ci-debug.svg?style=flat-square&color=success" alt="npm downloads"></a>
+<a href="https://github.com/mgks/ci-debug/blob/main/LICENSE"><img src="https://img.shields.io/github/license/mgks/ci-debug.svg?style=flat-square&color=blue" alt="license"></a>
+<a href="https://github.com/mgks/ci-debug/stargazers"><img src="https://img.shields.io/github/stars/mgks/ci-debug?style=flat-square&logo=github" alt="stars"></a>
 
-**The Problem:** You currently do X manually or write ugly bash scripts.
-**The Solution:** This does it in one line.
+**The Problem:**
+When CI fails, you need to know the environment state (Node version, OS, specific env vars). 
+Running `printenv` is dangerous because it leaks API keys and secrets into public logs.
+
+**The Solution:**
+`ci-debug` prints a beautiful summary of the system and lists environment variables, **automatically redacting** any keys that look like secrets (e.g., `API_KEY`, `GITHUB_TOKEN`, `PASSWORD`).
 
 ## Install
 
 ```bash
-npm install package-name
+npm install ci-debug
 ```
 
 ## Usage
 
-### CLI
+### CLI (Recommended)
+
+Add this step to your GitHub Actions or CI pipeline when things go wrong:
+
+```yaml
+- run: npx ci-debug
+```
+
+**Output Example:**
 
 ```bash
-npx package-name --flag
+🔍 CI Debug Info v0.1.0
+----------------------------------------
+📦 System
+  OS:       Linux 5.15.0-1048-azure (linux)
+  Arch:     x64
+  Node:     v20.9.0
+  CPUs:     2
+  Memory:   7000 MB Total
+
+📂 Context
+  CWD:      /home/runner/work/project/project
+
+🔑 Environment Variables
+  CI: true
+  DATABASE_URL: ***** [REDACTED] *****
+  GITHUB_TOKEN: ***** [REDACTED] *****
+  NODE_ENV: production
+  npm_package_version: 1.0.0
+----------------------------------------
 ```
 
 ### API
 
 ```js
-import { functionName } from 'package-name';
+import { getDebugInfo } from 'ci-debug';
 
-functionName('input');
+const info = getDebugInfo();
+console.log(JSON.stringify(info, null, 2));
 ```
+
+## Security
+This tool uses a regex heuristic to detect keys containing:
+`key`, `secret`, `token`, `password`, `auth`, `credential`, `private`, `cert`, `sig`.
+
+These values are replaced with `[REDACTED]`.
 
 ## License
 
