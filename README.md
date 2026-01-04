@@ -1,19 +1,17 @@
 # ci-debug
 
-> Safely print system info and environment variables for debugging CI pipelines.
+**Safely print system info and environment variables for debugging CI pipelines.**
 
-<a href="https://www.npmjs.com/package/ci-debug"><img src="https://img.shields.io/npm/v/ci-debug.svg?style=flat-square&color=007acc" alt="npm version"></a>
-<a href="https://bundlephobia.com/package/ci-debug"><img src="https://img.shields.io/bundlephobia/minzip/ci-debug?style=flat-square" alt="size"></a>
-<a href="https://www.npmjs.com/package/ci-debug"><img src="https://img.shields.io/npm/dt/ci-debug.svg?style=flat-square&color=success" alt="npm downloads"></a>
-<a href="https://github.com/mgks/ci-debug/blob/main/LICENSE"><img src="https://img.shields.io/github/license/mgks/ci-debug.svg?style=flat-square&color=blue" alt="license"></a>
-<a href="https://github.com/mgks/ci-debug/stargazers"><img src="https://img.shields.io/github/stars/mgks/ci-debug?style=flat-square&logo=github" alt="stars"></a>
+<p>
+  <img src="https://img.shields.io/npm/v/ci-debug.svg?style=flat-square&color=d25353" alt="npm version">
+  <img src="https://img.shields.io/bundlephobia/minzip/ci-debug?style=flat-square&color=38bd24" alt="size">
+  <img src="https://img.shields.io/npm/dt/ci-debug.svg?style=flat-square&color=success&color=38bd24" alt="npm downloads">
+  <img src="https://img.shields.io/github/license/mgks/ci-debug.svg?style=flat-square&color=blue" alt="license">
+</p>
 
-**The Problem:**
-When CI fails, you need to know the environment state (Node version, OS, specific env vars). 
-Running `printenv` is dangerous because it leaks API keys and secrets into public logs.
+**The Problem:** When CI fails, you need to know the environment state (Node version, OS, specific env vars). Running `printenv` is dangerous because it leaks API keys and secrets into public logs.
 
-**The Solution:**
-`ci-debug` prints a beautiful summary of the system and lists environment variables, **automatically redacting** any keys that look like secrets (e.g., `API_KEY`, `GITHUB_TOKEN`, `PASSWORD`).
+**The Solution:** `ci-debug` prints a beautiful summary of the system and lists environment variables, **automatically redacting** any keys that look like secrets (e.g., `API_KEY`, `GITHUB_TOKEN`, `PASSWORD`).
 
 ## Install
 
