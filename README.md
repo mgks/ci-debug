@@ -9,11 +9,9 @@
   <img src="https://img.shields.io/github/license/mgks/ci-debug.svg?style=flat-square&color=blue" alt="license">
 </p>
 
-**The Problem:** When CI fails, you need to know the environment state (Node version, OS, specific env vars). Running `printenv` is dangerous because it leaks API keys and secrets into public logs.
+When CI fails, you often need visibility into the runtime environment like Node version, OS, and env vars, but dumping everything with `printenv` is risky because it can leak secrets into public logs. `ci-debug` solves this by printing a clean, readable system summary and listing environment variables while automatically redacting anything that looks sensitive, such as API keys, tokens, and passwords.
 
-**The Solution:** `ci-debug` prints a beautiful summary of the system and lists environment variables, **automatically redacting** any keys that look like secrets (e.g., `API_KEY`, `GITHUB_TOKEN`, `PASSWORD`).
-
-## Install
+## Installation
 
 ```bash
 npm install ci-debug
